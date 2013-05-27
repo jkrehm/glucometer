@@ -8,35 +8,13 @@ define(['backbone', 'moment', 'jquery', 'handlebars', 'templates'], function(Bac
  
         },
 
-        url: '/record'
+        url: 'index.php/record'
     });
 
 
     var RecordList = Backbone.Collection.extend({
-        model: Record
-    });
-
-
-    var records = new RecordList();
-    $.getJSON('index.php/records/recent', function(data) {
-
-        _.each(data, function(recordData) {
-
-            var food = '';
-
-            for (i in recordData.foods) {
-                food += recordData.foods[i].food + ',';
-            }
-            recordData.food = food.slice(0, food.length-1);
-
-            var record = new Record(recordData);
-            var view = new RecordView({ model: record });
-
-            records.push( record );
-
-            $('#previous-saves').prepend( view.render().el );
-
-        });
+        model: Record,
+        url: 'index.php/records/recent'
     });
 
 
@@ -65,20 +43,14 @@ define(['backbone', 'moment', 'jquery', 'handlebars', 'templates'], function(Bac
         submit: function(e) {
             e.preventDefault();
 
-            this.model.set({
+            records.create({
 
                 date:  this.$el.find('[name="date"]').val(),
                 time:  this.$el.find('[name="time"]').val(),
                 level: this.$el.find('[name="level"]').val(),
                 food:  this.$el.find('[name="food"]').val()
 
-            }).save();
-
-            var view = new RecordView({ model: this.model });
-
-            records.push( this.model );
-
-            $('#previous-saves').prepend( view.render().el );
+            });
         }
     });
 
@@ -87,7 +59,7 @@ define(['backbone', 'moment', 'jquery', 'handlebars', 'templates'], function(Bac
         tagName: 'tr',
 
         initialize: function() {
-            // this.listenTo(this.model, 'change', this.render);
+            this.listenTo(this.model, 'change', this.render);
         },
 
         render: function() {
@@ -105,15 +77,26 @@ define(['backbone', 'moment', 'jquery', 'handlebars', 'templates'], function(Bac
     });
 
 
+    var records = new RecordList();
+
+
     var App = Backbone.View.extend({
         el: $('.container-fluid'),
 
         initialize: function() {
 
-            this.listenTo(records, 'change', this.render);
+            this.listenTo(records, 'add', this.addRecord);
 
             var view = new NewRecordView({ model: new Record() });
             this.$el.prepend( view.render().el );
+
+            records.fetch();
+        },
+
+        addRecord: function(record) {
+
+            var view = new RecordView({ model: record });
+            this.$('#previous-saves').prepend( view.render().el );
 
         }
     });

@@ -14,7 +14,7 @@ class History extends Eloquent {
 
     public function scopeRecent($query) {
 
-        return $query->orderBy('date')->orderBy('time')->take(5);
+        return $query->orderBy('date', 'desc')->orderBy('time', 'desc')->take(5);
 
     }
 

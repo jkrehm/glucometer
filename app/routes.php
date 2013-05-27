@@ -21,7 +21,7 @@ Route::get('/records/recent', function() {
 
     $recent = History::with('foods')->recent()->get();
 
-    return $recent->toJson();
+    return Response::json( array_reverse($recent->toArray() ));
 
 });
 
