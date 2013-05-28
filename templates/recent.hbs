@@ -1,4 +1,21 @@
-<td>{{date}}</td>
-<td>{{time}}</td>
-<td>{{level}}</td>
-<td>{{food}}</td>
+<td class="trash">
+    <i class="icon-trash pull-left edit"></i>
+</td>
+<td>
+    <span class="input">{{dateFormat datetime format="MMM D h:mma"}}</span>
+    <input type="text" name="date" placeholder="Date" value="{{date}}" class="edit">
+    <input type="text" name="time" placeholder="Time" value="{{time}}" class="edit">
+</td>
+<td>
+    {{#unless_empty level}}
+        <span class="input">{{level}}</span>
+    {{/unless_empty}}
+    <input type="text" name="level" placeholder="Level" value="{{level}}" class="edit">
+
+    {{#unless_empty food}}
+        {{#each food}}
+            <span class="input">{{this}}</span>
+        {{/each}}
+    {{/unless_empty}}
+    <input type="text" name="food" placeholder="Food eaten" value="{{food}}" class="edit">
+</td>

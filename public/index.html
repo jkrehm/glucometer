@@ -10,18 +10,18 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
         <style>
             body {
                 padding-top: 60px;
                 padding-bottom: 40px;
             }
         </style>
-        <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
+        <link rel="stylesheet" href="/css/main.css">
 
-        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-        <script data-main="js/main" src="js/vendor/require.js"></script>
+        <script src="/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        <script data-main="js/main" src="/js/vendor/require.js"></script>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -29,7 +29,18 @@
         <![endif]-->
 
         <div class="container-fluid">
-            <table id="previous-saves"></table>
+            <div class="row-fluid">
+                <div class="span4" id="new-record"></div>
+                <div class="span8">
+                    <table class="table" id="previous-saves">
+                        <tr>
+                            <th></th>
+                            <th>Date/Time</th>
+                            <th>Level/Food</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div> <!-- /container -->
 
         <script>

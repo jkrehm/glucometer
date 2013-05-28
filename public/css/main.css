@@ -1,22 +1,19 @@
+.edit {
+    display: none !important;
+    visibility: hidden !important;
+}
 
+.editing .edit {
+    display: block !important;
+    visibility: visible !important;
+}
 
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
+.editing .input {
+    display: none;
+    visibility: hidden;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+table .trash {
+    width: 15px;
+    vertical-align: middle;
+}

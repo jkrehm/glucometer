@@ -19,9 +19,24 @@ Route::get('/', function()
 
 Route::get('/records/recent', function() {
 
-    $recent = History::with('foods')->recent()->get();
+    $recent = History::with('food')->recent()->get();
 
-    return Response::json( array_reverse($recent->toArray() ));
+    $recent = $recent->toArray();
+
+    foreach ($recent as &$record) {
+
+        $food = array();
+
+        foreach ($record['food'] as $f) {
+
+            $food[] = $f['food'];
+            
+        }
+
+        $record['food'] = $food;
+    }
+
+    return Response::json( array_reverse($recent) );
 
 });
 
@@ -38,13 +53,45 @@ Route::post('/record', function() {
 
     $history->save();
 
-    foreach (explode(',', Input::get('food')) as $value) {
+    foreach (Input::get('food') as $value) {
         
         $food = new Food();
 
         $food->food = $value;
 
-        $history->foods()->save($food);
+        $history->food()->save($food);
+
+    }
+
+    $return = array('success' => true);
+
+    return Response::json($return)->setCallback(Input::get('callback'));
+
+});
+
+
+Route::put('/record', function() {
+
+    header('Access-Control-Allow-Origin: http://localhost:4000');
+    
+    $history = History::find( Input::get('id') );
+
+    $history->date = Input::get('date');
+    $history->time = Input::get('time');
+    $history->level = Input::get('level');
+
+    $history->save();
+
+    // Remove the current food
+    $history->food()->delete();
+
+    foreach (Input::get('food') as $value) {
+        
+        $food = new Food();
+
+        $food->food = $value;
+
+        $history->food()->save($food);
 
     }
 

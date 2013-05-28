@@ -19,7 +19,7 @@ class History extends Eloquent {
     }
 
 
-    public function foods() {
+    public function food() {
 
         return $this->hasMany('Food', 'history_id');
 
